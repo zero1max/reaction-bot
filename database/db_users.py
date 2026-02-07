@@ -14,6 +14,18 @@ async def setup_users():
                 joined_at TEXT
             )
         """)
+
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS channels (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                channel_id INTEGER UNIQUE,
+                channel_title TEXT,
+                channel_username TEXT,
+                owner_id INTEGER,
+                added_at TEXT
+            )
+        """)
+        
         await db.commit()
         
         

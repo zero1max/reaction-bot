@@ -12,6 +12,8 @@ ADMIN_IDS = [5471452269]
 dp = Dispatcher()
 router_admin = Router()
 router_user = Router()
+router_channel = Router()
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML)) # type: ignore
 dp.include_router(router=router_admin)
 dp.include_router(router=router_user)
+dp.include_router(router=router_channel)
