@@ -4,7 +4,7 @@ from aiogram.types import Message
 from aiogram.types import ReactionTypeEmoji
 from aiogram.filters import CommandStart
 #
-from loader import router_user, router_channel
+from loader import router_user, router_channel, ADMIN_IDS
 from database.db_users import DB, add_user
 
 
@@ -20,8 +20,12 @@ START_TEXT = (
 
 @router_user.message(CommandStart())
 async def start_handler(msg: Message):
+    # 🔴 Agar admin bo‘lsa — users.db ga yozmaymiz
+    if msg.from_user.id in ADMIN_IDS:  # type: ignore
+        return
+
     await add_user(
-        msg.from_user.id, # type: ignore
+        msg.from_user.id,       # type: ignore
         msg.from_user.username, # type: ignore
         msg.from_user.full_name # type: ignore
     )

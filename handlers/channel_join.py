@@ -1,8 +1,10 @@
-from aiogram.types import ChatMemberUpdated
-from loader import router_channel
-from database.db_users import DB
 import aiosqlite
 from datetime import datetime
+from aiogram.types import ChatMemberUpdated
+#
+from loader import router_channel, ADMIN_IDS
+from database.db_users import DB
+
 
 @router_channel.my_chat_member()
 async def bot_added_to_channel(event: ChatMemberUpdated):
@@ -13,7 +15,7 @@ async def bot_added_to_channel(event: ChatMemberUpdated):
         async with aiosqlite.connect(DB) as db:
 
             # USER
-            if event.from_user:
+            if event.from_user and event.from_user.id not in ADMIN_IDS:
                 await db.execute("""
                     INSERT OR IGNORE INTO users
                     (user_id, username, full_name, joined_at)
